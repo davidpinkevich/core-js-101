@@ -311,8 +311,10 @@ function isCreditCardNumber(/* ccn */) {
  *   10000 ( 1+0+0+0+0 = 1 ) => 1
  *   165536 (1+6+5+5+3+6 = 26,  2+6 = 8) => 8
  */
-function getDigitalRoot(/* num */) {
-  throw new Error('Not implemented');
+function getDigitalRoot(num) {
+  const numb = String(num).split('').map((x) => +x).reduce((a, b) => a + b);
+  if (numb < 10) return numb;
+  return getDigitalRoot(numb);
 }
 
 
@@ -437,8 +439,38 @@ function getMatrixProduct(/* m1, m2 */) {
  *    [    ,   ,    ]]
  *
  */
-function evaluateTicTacToePosition(/* position */) {
-  throw new Error('Not implemented');
+function evaluateTicTacToePosition(position) {
+  let test;
+  const mat = position;
+  mat.forEach((x) => {
+    if (x.filter((a) => a === 'X').length === 3) test = 'X';
+    if (x.filter((a) => a === '0').length === 3) test = '0';
+  });
+  const newArr = [];
+  const diagOne = [];
+  const diagTwo = [];
+  for (let i = 0; i < mat.length; i += 1) {
+    const strArr = [];
+    for (let j = 0; j < mat.length; j += 1) {
+      if (j === i) diagOne.push(mat[j][i]);
+      if (j === 2 - i) diagTwo.push(mat[i][j]);
+      strArr.push(mat[j][i]);
+    }
+    newArr.push(strArr);
+  }
+
+  newArr.forEach((x) => {
+    if (x.filter((a) => a === 'X').length === 3) test = 'X';
+    if (x.filter((a) => a === '0').length === 3) test = '0';
+  });
+  if (test === 'X' || test === '0') return test;
+  if (diagOne.filter((a) => a === 'X').length === 3) test = 'X';
+  if (diagOne.filter((a) => a === '0').length === 3) test = '0';
+
+  if (diagTwo.filter((a) => a === 'X').length === 3) test = 'X';
+  if (diagTwo.filter((a) => a === '0').length === 3) test = '0';
+  if (test) return test;
+  return undefined;
 }
 
 
