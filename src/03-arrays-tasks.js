@@ -283,8 +283,13 @@ function getSecondItems(arr) {
  *  [ 'a', 'b', 'c', null ] => [ 'a', 'b','b', 'c','c','c',  null,null,null,null ]
  *  [ 1,2,3,4,5 ] => [ 1, 2,2, 3,3,3, 4,4,4,4, 5,5,5,5,5 ]
  */
-function propagateItemsByPositionIndex(/* arr  */) {
-  throw new Error('Not implemented');
+function propagateItemsByPositionIndex(arr) {
+  const newArr = [];
+  arr.map((val, ind) => {
+    newArr.push(...(new Array(ind + 1)).fill(val));
+    return false;
+  });
+  return newArr;
 }
 
 
@@ -544,8 +549,17 @@ function distinct(arr) {
  *    "Poland" => ["Lodz"]
  *   }
  */
-function group(/* array, keySelector, valueSelector */) {
-  throw new Error('Not implemented');
+function group(array, keySelector, valueSelector) {
+  const map = new Map();
+  array.map((x) => {
+    map.set(keySelector(x), []);
+    return false;
+  });
+  array.map((x) => {
+    if (keySelector(x)) map.get(keySelector(x)).push(valueSelector(x));
+    return false;
+  });
+  return map;
 }
 
 
@@ -583,8 +597,13 @@ function selectMany(arr, childrenSelector) {
  *   ['one','two','three'], [2]       => 'three'  (arr[2])
  *   [[[ 1, 2, 3]]], [ 0, 0, 1 ]      => 2        (arr[0][0][1])
  */
-function getElementByIndexes(/* arr, indexes */) {
-  throw new Error('Not implemented');
+function getElementByIndexes(arr, indexes) {
+  let result = arr;
+  indexes.map((numb) => {
+    result = result[numb];
+    return false;
+  });
+  return result;
 }
 
 
