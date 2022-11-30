@@ -205,8 +205,14 @@ function extractEmails(str) {
  *             '└──────────┘\n'
  *
  */
-function getRectangleString(/* width, height */) {
-  throw new Error('Not implemented');
+function getRectangleString(width, height) {
+  const horizont = '─';
+
+  const top = `┌${horizont.repeat(width - 2)}┐\n`;
+  const bot = `└${horizont.repeat(width - 2)}┘\n`;
+  const side = `│${' '.repeat(width - 2)}│\n`;
+
+  return `${top}${side.repeat(height - 2)}${bot}`;
 }
 
 
@@ -226,8 +232,40 @@ function getRectangleString(/* width, height */) {
  *    => 'NOPQRSTUVWXYZABCDEFGHIJKLMnopqrstuvwxyzabcdefghijklm'
  *
  */
-function encodeToRot13(/* str */) {
-  throw new Error('Not implemented');
+function encodeToRot13(str) {
+  const low = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'];
+  const strArr = str.split('');
+  const answer = [];
+  strArr.forEach((val) => {
+    const ind = low.findIndex((x) => x === val.toLowerCase());
+    if (low[ind] !== val.toLowerCase()) answer.push(val);
+    if (low[ind] === val.toLowerCase()) {
+      if (ind <= 12) {
+        if (val === val.toLowerCase()) {
+          answer.push(low[ind + 13]);
+          return;
+        }
+        answer.push(low[ind + 13].toUpperCase());
+        return;
+      }
+      if (ind === 25) {
+        if (val === val.toLowerCase()) {
+          answer.push(low[12]);
+          return;
+        }
+        answer.push(low[12].toUpperCase());
+        return;
+      }
+      if (ind > 12) {
+        if (val === val.toLowerCase()) {
+          answer.push(low[ind - 13]);
+        } else {
+          answer.push(low[ind - 13].toUpperCase());
+        }
+      }
+    }
+  });
+  return answer.join('');
 }
 
 /**
@@ -243,8 +281,10 @@ function encodeToRot13(/* str */) {
  *   isString('test') => true
  *   isString(new String('test')) => true
  */
-function isString(/* value */) {
-  throw new Error('Not implemented');
+function isString(value) {
+  if (typeof (value) === 'string') return true;
+  if (value instanceof String) return true;
+  return false;
 }
 
 
@@ -272,8 +312,15 @@ function isString(/* value */) {
  *   'Q♠' => 50
  *   'K♠' => 51
  */
-function getCardId(/* value */) {
-  throw new Error('Not implemented');
+function getCardId(value) {
+  const arr = [
+    'A♣', '2♣', '3♣', '4♣', '5♣', '6♣', '7♣', '8♣', '9♣', '10♣', 'J♣', 'Q♣', 'K♣',
+    'A♦', '2♦', '3♦', '4♦', '5♦', '6♦', '7♦', '8♦', '9♦', '10♦', 'J♦', 'Q♦', 'K♦',
+    'A♥', '2♥', '3♥', '4♥', '5♥', '6♥', '7♥', '8♥', '9♥', '10♥', 'J♥', 'Q♥', 'K♥',
+    'A♠', '2♠', '3♠', '4♠', '5♠', '6♠', '7♠', '8♠', '9♠', '10♠', 'J♠', 'Q♠', 'K♠',
+  ];
+
+  return arr.findIndex((x) => x === value);
 }
 
 
